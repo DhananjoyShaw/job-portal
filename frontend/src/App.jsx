@@ -1,15 +1,28 @@
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import Home from './components/home';
+
+const appRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/signup',
+    element: <Signup />
+  },
+])
 
 function App() {
-
   return (
-    <>
-      <h1 className="text-3xl text-blue-400 font-bold underline">
-        Hello world!
-      </h1>
-      <Button>Click me</Button>
-    </>
+    <div>
+      <RouterProvider router={appRouter} />
+    </div>
   )
 }
 
