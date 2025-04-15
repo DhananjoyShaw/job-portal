@@ -29,3 +29,9 @@ frontend/coverage
 .vscode/
 **/*.swp
 **/*.swo
+
+# macOS
+.DS_Store
+**/.DS_Store
+._.DS_Store
+**/._.DS_Store
