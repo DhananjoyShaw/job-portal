@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-import Home from './components/home';
+import Home from './components/Home.jsx';
 
 const appRouter = createBrowserRouter([
   {
