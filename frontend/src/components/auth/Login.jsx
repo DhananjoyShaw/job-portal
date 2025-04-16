@@ -6,7 +6,7 @@ import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '../../redux/authSlice.js'
+import { setLoading, setUser } from '../../redux/authSlice.js'
 import axios from 'axios'
 import { USER_API_END_POINT } from '../../utils/constants.js'
 import { toast } from 'sonner'
@@ -40,6 +40,7 @@ const Login = () => {
             });
 
             if (res.data.success) {
+                dispatch(setUser(res.data.user));
                 navigate("/");
                 toast.success(res.data.message);
             }

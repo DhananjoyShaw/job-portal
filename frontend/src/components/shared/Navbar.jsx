@@ -4,12 +4,13 @@ import { Button } from '../ui/button'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { LogOut, User2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { USER_API_END_POINT } from '../../utils/constants.js'
 import { toast } from 'sonner'
 
 const Navbar = () => {
-    const user = true;
+    const { user } = useSelector(store => store.auth);
     const navigate = useNavigate();
 
     const logoutHandler = async () => {
