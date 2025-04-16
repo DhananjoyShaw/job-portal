@@ -22,7 +22,7 @@ const Profile = () => {
                 <div className='flex justify-between'>
                     <div className='flex items-center gap-4'>
                         <Avatar className="h-24 w-24">
-                            <AvatarImage src="https://github.com/shadcn.png" alt="profile" />
+                            <AvatarImage src={user?.profile?.profilePhoto} alt="profile" />
                         </Avatar>
                         <div>
                             <h1 className='font-medium text-xl'>{user?.fullname}</h1>
@@ -52,7 +52,7 @@ const Profile = () => {
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                     <Label className="text-md font-bold">Resume</Label>
                     {
-                        isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>Resume_View</a> : <span>NA</span>
+                        isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
                     }
                 </div>
             </div>
