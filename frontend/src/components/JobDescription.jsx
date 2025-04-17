@@ -1,21 +1,39 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSingleJob } from '@/redux/jobSlice';
 import axios from 'axios';
-import { JOB_API_END_POINT } from '@/utils/constants';
+import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constants';
 import Navbar from './shared/Navbar';
+import { toast } from 'sonner';
 
 const JobDescription = () => {
-    const isApplied = false;
-    const params = useParams();
-    const jobId = params.id;
-
     const { user } = useSelector(store => store.auth);
     const { singleJob } = useSelector(store => store.job);
+    const params = useParams();
+    const jobId = params.id;
     const dispatch = useDispatch();
+
+    const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
+    const [isApplied, setIsApplied] = useState(isIntiallyApplied);
+
+    const applyJobHandler = async () => {
+        try {
+            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
+
+            if (res.data.success) {
+                setIsApplied(true);
+                const updatedSingleJob = { ...singleJob, applications: [...singleJob.applications, { applicant: user?._id }] }
+                dispatch(setSingleJob(updatedSingleJob)); // helps in updating the UI data in realtime
+                toast.success(res.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
 
     useEffect(() => {
         const fetchSingleJob = async () => {
@@ -39,12 +57,13 @@ const JobDescription = () => {
                     <div>
                         <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
                         <div className='flex items-center gap-2 mt-4'>
-                            <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.postion} Positions</Badge>
+                            <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.position} Positions</Badge>
                             <Badge className={'text-[#F83002] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
                             <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{singleJob?.salary} LPA</Badge>
                         </div>
                     </div>
                     <Button
+                        onClick={isApplied ? null : applyJobHandler}
                         disabled={isApplied}
                         className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
                         {isApplied ? 'Already Applied' : 'Apply Now'}
