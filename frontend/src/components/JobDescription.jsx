@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSingleJob } from '@/redux/jobSlice';
 import axios from 'axios';
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constants';
 import Navbar from './shared/Navbar';
 import { toast } from 'sonner';
+import { setUser } from '@/redux/authSlice';
 
 const JobDescription = () => {
     const { user } = useSelector(store => store.auth);
@@ -41,6 +42,7 @@ const JobDescription = () => {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
+                    setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id))
                 }
             } catch (error) {
                 console.log(error);
@@ -48,6 +50,10 @@ const JobDescription = () => {
         }
         fetchSingleJob();
     }, [jobId, dispatch, user?._id]);
+
+    if (!user) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <>
