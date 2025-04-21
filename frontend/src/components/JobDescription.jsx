@@ -5,10 +5,10 @@ import { Navigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSingleJob } from '@/redux/jobSlice';
 import axios from 'axios';
-import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constants';
+import { APPLICATION_API_END_POINT } from '@/utils/constants';
 import Navbar from './shared/Navbar';
 import { toast } from 'sonner';
-import { setUser } from '@/redux/authSlice';
+import useGetJobById from '@/hooks/useGetJobByID';
 
 const JobDescription = () => {
     const { user } = useSelector(store => store.auth);
@@ -16,6 +16,7 @@ const JobDescription = () => {
     const params = useParams();
     const jobId = params.id;
     const dispatch = useDispatch();
+    useGetJobById(jobId);
 
     const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
@@ -37,19 +38,8 @@ const JobDescription = () => {
     }
 
     useEffect(() => {
-        const fetchSingleJob = async () => {
-            try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
-                if (res.data.success) {
-                    dispatch(setSingleJob(res.data.job));
-                    setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id))
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchSingleJob();
-    }, [jobId, dispatch, user?._id]);
+        setIsApplied(singleJob?.applications?.some(application => application.applicant === user?._id));
+    }, [singleJob, user?._id])
 
     if (!user) {
         return <Navigate to="/login" />;
@@ -91,3 +81,5 @@ const JobDescription = () => {
 }
 
 export default JobDescription;
+
+
