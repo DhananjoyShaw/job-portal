@@ -9,7 +9,7 @@ import { USER_API_END_POINT } from '../../utils/constants.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../redux/authSlice.js'
 import { Link, useNavigate } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Mail, Lock, User, Phone, Upload } from 'lucide-react'
 import { toast } from 'sonner'
 
 const Signup = () => {
@@ -69,48 +69,76 @@ const Signup = () => {
     return (
         <div>
             <Navbar />
-            <div className='flex items-center justify-center max-w-7xl mx-auto'>
-                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
-                    <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
-                    <div className='my-2'>
-                        <Label>Full Name</Label>
-                        <Input
-                            type="text"
-                            value={input.fullname}
-                            name="fullname"
-                            onChange={changeEventHandler}
-                            placeholder="Enter your full name"
-                        />
+            <div className='flex items-center justify-center max-w-7xl mx-auto px-4 py-16 mt-10'>
+                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-xl shadow-lg p-8 bg-white'>
+                    <h1 className='font-bold text-2xl mb-6 text-center text-gray-800'>Sign Up</h1>
+                    <div className='my-4'>
+                        <Label className='text-sm font-medium text-gray-700'>Full Name</Label>
+                        <div className='relative mt-1'>
+                            <User className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+                            <Input
+                                type="text"
+                                value={input.fullname}
+                                name="fullname"
+                                onChange={changeEventHandler}
+                                placeholder="Enter your full name"
+                                className='pl-10 border-gray-300 focus:border-blue-500'
+                            />
+                        </div>
                     </div>
-                    <div className='my-2'>
-                        <Label>Email</Label>
-                        <Input
-                            type="email"
-                            value={input.email}
-                            name="email"
-                            onChange={changeEventHandler}
-                            placeholder="Enter your email"
-                        />
+                    <div className='my-4'>
+                        <Label className='text-sm font-medium text-gray-700'>Email</Label>
+                        <div className='relative mt-1'>
+                            <Mail className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+                            <Input
+                                type="email"
+                                value={input.email}
+                                name="email"
+                                onChange={changeEventHandler}
+                                placeholder="Enter your email"
+                                className='pl-10 border-gray-300 focus:border-blue-500'
+                            />
+                        </div>
                     </div>
-                    <div className='my-2'>
-                        <Label>Phone Number</Label>
-                        <Input
-                            type="text"
-                            value={input.phoneNumber}
-                            name="phoneNumber"
-                            onChange={changeEventHandler}
-                            placeholder="Enter your phone number"
-                        />
+                    <div className='my-4'>
+                        <Label className='text-sm font-medium text-gray-700'>Phone Number</Label>
+                        <div className='relative mt-1'>
+                            <Phone className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+                            <Input
+                                type="text"
+                                value={input.phoneNumber}
+                                name="phoneNumber"
+                                onChange={changeEventHandler}
+                                placeholder="Enter your phone number"
+                                className='pl-10 border-gray-300 focus:border-blue-500'
+                            />
+                        </div>
                     </div>
-                    <div className='my-2'>
-                        <Label>Password</Label>
-                        <Input
-                            type="password"
-                            value={input.password}
-                            name="password"
-                            onChange={changeEventHandler}
-                            placeholder="Enter your password"
-                        />
+                    <div className='my-4'>
+                        <Label className='text-sm font-medium text-gray-700'>Password</Label>
+                        <div className='relative mt-1'>
+                            <Lock className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+                            <Input
+                                type="password"
+                                value={input.password}
+                                name="password"
+                                onChange={changeEventHandler}
+                                placeholder="Enter your password"
+                                className='pl-10 border-gray-300 focus:border-blue-500'
+                            />
+                        </div>
+                    </div>
+                    <div className='my-4'>
+                        <Label className='text-sm font-medium text-gray-700'>Profile</Label>
+                        <div className='relative mt-1'>
+                            <Upload className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+                            <Input
+                                accept="image/*"
+                                type="file"
+                                onChange={changeFileHandler}
+                                className="pl-10 border-gray-300 focus:border-blue-500 cursor-pointer"
+                            />
+                        </div>
                     </div>
                     <div className='flex items-center justify-between'>
                         <RadioGroup className="flex items-center gap-4 my-5">
@@ -121,9 +149,9 @@ const Signup = () => {
                                     value="student"
                                     checked={input.role === 'student'}
                                     onChange={changeEventHandler}
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-4 h-4 text-blue-600"
                                 />
-                                <Label htmlFor="r1">Student</Label>
+                                <Label className='cursor-pointer text-gray-700'>Student</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Input
@@ -132,25 +160,27 @@ const Signup = () => {
                                     value="recruiter"
                                     checked={input.role === 'recruiter'}
                                     onChange={changeEventHandler}
-                                    className="cursor-pointer"
+                                    className="cursor-pointer w-4 h-4 text-blue-600"
                                 />
-                                <Label htmlFor="r2">Recruiter</Label>
+                                <Label className='cursor-pointer text-gray-700'>Recruiter</Label>
                             </div>
                         </RadioGroup>
-                        <div className='flex items-center gap-2'>
-                            <Label>Profile</Label>
-                            <Input
-                                accept="image/*"
-                                type="file"
-                                onChange={changeFileHandler}
-                                className="cursor-pointer"
-                            />
-                        </div>
                     </div>
+
                     {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Signup</Button>
+                        loading ? (
+                            <Button disabled className="w-full my-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg">
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full my-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg">
+                                Signup
+                            </Button>
+                        )
                     }
-                    <span className='text-sm'>Already have an account? <Link to="/login" className='text-blue-600'>Login</Link></span>
+                    <span className='text-sm text-center block text-gray-600'>
+                        Already have an account? <Link to="/login" className='text-blue-600 hover:text-blue-700 font-medium'>Login</Link>
+                    </span>
                 </form>
             </div>
         </div>

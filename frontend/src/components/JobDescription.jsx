@@ -9,6 +9,8 @@ import { APPLICATION_API_END_POINT } from '@/utils/constants';
 import Navbar from './shared/Navbar';
 import { toast } from 'sonner';
 import useGetJobById from '@/hooks/useGetJobByID';
+import { Briefcase, MapPin, Calendar, DollarSign, Users, Clock, Building2 } from 'lucide-react';
+import Footer from './shared/Footer';
 
 const JobDescription = () => {
     const { user } = useSelector(store => store.auth);
@@ -48,34 +50,102 @@ const JobDescription = () => {
     return (
         <>
             <Navbar />
-            <div className='max-w-7xl mx-auto my-10'>
-                <div className='flex items-center justify-between'>
-                    <div>
-                        <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
-                        <div className='flex items-center gap-2 mt-4'>
-                            <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.position} Positions</Badge>
-                            <Badge className={'text-[#F83002] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
-                            <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{singleJob?.salary} LPA</Badge>
+            <div className='max-w-7xl mx-auto min-h-screen px-4 py-16 mt-10'>
+                <div className='max-w-7xl mx-auto'>
+                    <div className='bg-white border border-gray-200 rounded-xl shadow-lg p-8'>
+                        <div className='flex items-start justify-between mb-6'>
+                            <div className='flex-1'>
+                                <div className='flex items-center gap-3 mb-4'>
+                                    <div className='w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center'>
+                                        <Building2 className='w-6 h-6 text-white' />
+                                    </div>
+                                    <div>
+                                        <h1 className='font-bold text-2xl text-gray-900'>{singleJob?.title}</h1>
+                                        <p className='text-gray-600'>{singleJob?.company?.name}</p>
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-wrap gap-2 mb-5'>
+                                    <Badge className='bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors' variant="secondary">{singleJob?.position} Positions</Badge>
+                                    <Badge className='bg-green-50 text-green-700 hover:bg-green-100 transition-colors' variant="secondary">{singleJob?.jobType}</Badge>
+                                </div>
+                            </div>
+
+                            <Button
+                                onClick={isApplied ? null : applyJobHandler}
+                                disabled={isApplied}
+                                className={`px-8 py-3 rounded-lg font-medium ${isApplied
+                                    ? 'bg-gray-600 cursor-not-allowed text-white'
+                                    : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
+                                    }`}
+                            >
+                                {isApplied ? 'Already Applied' : 'Apply Now'}
+                            </Button>
+                        </div>
+
+                        <div className='border-t border-gray-200 pt-4'>
+                            <h2 className='font-bold text-xl text-gray-900 mb-6 flex items-center gap-2'>
+                                <Briefcase className='w-5 h-5 text-blue-600' />
+                                Job Details
+                            </h2>
+                            <div className='grid md:grid-cols-2 gap-6'>
+                                <div className='space-y-4'>
+                                    <div className='flex items-center gap-3'>
+                                        <Briefcase className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Role</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.title}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-3'>
+                                        <MapPin className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Location</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.location}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-3'>
+                                        <DollarSign className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Salary</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.salary} LPA</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-3'>
+                                        <Clock className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Experience</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.experienceLevel} years</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='space-y-4'>
+                                    <div className='flex items-center gap-3'>
+                                        <Users className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Total Applicants</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.applications?.length || 0}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-3'>
+                                        <Calendar className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Posted Date</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.createdAt?.split("T")[0]}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='mt-8 pt-6 border-t border-gray-200'>
+                                <h3 className='font-bold text-lg text-gray-900 mb-4'>Job Description</h3>
+                                <p className='text-gray-700 leading-relaxed'>{singleJob?.description}</p>
+                            </div>
                         </div>
                     </div>
-                    <Button
-                        onClick={isApplied ? null : applyJobHandler}
-                        disabled={isApplied}
-                        className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
-                        {isApplied ? 'Already Applied' : 'Apply Now'}
-                    </Button>
-                </div>
-                <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
-                <div className='my-4'>
-                    <h1 className='font-bold my-1'>Role:<span className='pl-4 font-normal text-gray-800'>{singleJob?.title}</span></h1>
-                    <h1 className='font-bold my-1'>Location:<span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
-                    <h1 className='font-bold my-1'>Description:<span className='pl-4 font-normal text-gray-800'>{singleJob?.description}</span></h1>
-                    <h1 className='font-bold my-1'>Experience:<span className='pl-4 font-normal text-gray-800'>{singleJob?.experienceLevel} yrs</span></h1>
-                    <h1 className='font-bold my-1'>Salary:<span className='pl-4 font-normal text-gray-800'>{singleJob?.salary} LPA</span></h1>
-                    <h1 className='font-bold my-1'>Total Applicants:<span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
-                    <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

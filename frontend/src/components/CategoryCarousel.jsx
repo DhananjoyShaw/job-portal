@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
+import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +9,10 @@ const category = [
     "Frontend Developer",
     "Backend Developer",
     "Data Science",
-    "Graphic Designer",
-    "FullStack Developer"
-]
+    "FullStack Developer",
+    "DevOps Engineer",
+    "UI/UX Designer"
+];
 
 const CategoryCarousel = () => {
     const dispatch = useDispatch();
@@ -23,22 +24,26 @@ const CategoryCarousel = () => {
     }
 
     return (
-        <div>
-            <Carousel className="w-full max-w-xl mx-auto my-12">
-                <CarouselContent>
-                    {
-                        category.map((cat, index) => (
-                            <CarouselItem
-                                key={index}
-                                className="md:basis-[35%] lg-basis-1/3">
-                                <Button onClick={() => searchJobHandler(cat)} variant="outline" className="rounded-full bg-gray-200">{cat}</Button>
-                            </CarouselItem>
-                        ))
-                    }
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
+        <div className="w-full max-w-4xl mx-auto overflow-hidden">
+            <motion.div
+                className="flex gap-4"
+                animate={{ x: [0, -1000], }}
+                transition={{ x: { repeat: Infinity, repeatType: "loop", duration: 20, ease: "linear", }, }}
+            >
+                {
+                    [...category, ...category].map((cat, index) => (
+                        <motion.div key={index} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <Button
+                                onClick={() => searchJobHandler(cat)}
+                                variant="outline"
+                                className="rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 transition-all duration-300 whitespace-nowrap"
+                            >
+                                {cat}
+                            </Button>
+                        </motion.div>
+                    ))
+                }
+            </motion.div>
         </div>
     )
 }

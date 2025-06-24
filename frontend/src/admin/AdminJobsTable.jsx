@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popove
 import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 
 const AdminJobsTable = () => {
     const { allAdminJobs, searchJobByText } = useSelector(store => store.job);
@@ -22,40 +23,69 @@ const AdminJobsTable = () => {
     }, [allAdminJobs, searchJobByText])
 
     return (
-        <div>
+        <div className="overflow-hidden">
             <Table>
-                <TableCaption>A list of your recent  posted jobs</TableCaption>
+                <TableCaption className="text-gray-600 font-medium mb-4">A list of your recent posted jobs</TableCaption>
                 <TableHeader>
-                    <TableRow>
-                        <TableHead>Company Name</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
+                    <TableRow className="border-b-2 border-gray-100 hover:bg-gray-50/50">
+                        <TableHead className="font-semibold text-gray-700 py-4">Company Name</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4">Role</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4">Date</TableHead>
+                        <TableHead className="text-right font-semibold text-gray-700 py-4">Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
                         filterJobs?.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={4} className="text-center">No jobs found </TableCell>
+                                <TableCell colSpan={4} className="text-center py-8 text-gray-500">
+                                    <div className="flex flex-col items-center gap-2">
+                                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                            <MoreHorizontal className="w-6 h-6 text-gray-400" />
+                                        </div>
+                                        <span className="font-medium">No jobs found</span>
+                                        <span className="text-sm">Try adjusting your search criteria</span>
+                                    </div>
+                                </TableCell>
                             </TableRow>
                         ) : (
                             filterJobs?.map((job) => (
-                                <TableRow key={job._id}>
-                                    <TableCell>{job?.company?.name}</TableCell>
-                                    <TableCell>{job?.title}</TableCell>
-                                    <TableCell>{job?.createdAt.split("T")[0]}</TableCell>
-                                    <TableCell className="text-right cursor-pointer">
+                                <TableRow key={job._id} className="hover:bg-gray-50/80 transition-colors duration-200 border-b border-gray-100">
+                                    <TableCell className="py-4">
+                                        <div className="flex items-center gap-3">
+                                            <Avatar className="bg-white">
+                                                <AvatarImage src={job?.company?.logo} alt={job?.company?.name} className=" w-8 h-8 rounded-full object-cover" />
+                                            </Avatar>
+                                            <div className="font-medium text-gray-900">{job?.company?.name}</div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="py-4">
+                                        <div className="font-medium text-gray-900">{job?.title}</div>
+                                    </TableCell>
+                                    <TableCell className="py-4">
+                                        <div className="text-gray-600">{job?.createdAt.split("T")[0]}</div>
+                                    </TableCell>
+                                    <TableCell className="text-right py-4">
                                         <Popover>
-                                            <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
-                                            <PopoverContent className="w-32">
-                                                <div onClick={() => navigate(`/admin/job/${job._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
-                                                    <Edit2 className='w-4' />
-                                                    <span>Edit</span>
+                                            <PopoverTrigger>
+                                                <div className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
+                                                    <MoreHorizontal className="w-4 h-4 text-gray-600" />
                                                 </div>
-                                                <div onClick={() => navigate(`/admin/job/applicants/${job._id}`)} className='flex items-center w-fit gap-2 cursor-pointer mt-2'>
-                                                    <Eye className='w-4' />
-                                                    <span>Applicants</span>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-40 p-2">
+                                                <div
+                                                    onClick={() => navigate(`/admin/job/${job._id}`)}
+                                                    className='flex items-center gap-3 w-full cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200'
+                                                >
+                                                    <Edit2 className='w-4 h-4 text-blue-600' />
+                                                    <span className="text-sm font-medium text-gray-700">Edit</span>
+                                                </div>
+                                                <div
+                                                    onClick={() => navigate(`/admin/job/applicants/${job._id}`)}
+                                                    className='flex items-center gap-3 w-full cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 mt-1'
+                                                >
+                                                    <Eye className='w-4 h-4 text-green-600' />
+                                                    <span className="text-sm font-medium text-gray-700">Applicants</span>
                                                 </div>
                                             </PopoverContent>
                                         </Popover>

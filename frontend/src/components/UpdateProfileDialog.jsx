@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { Loader2 } from 'lucide-react'
+import { Loader2, User, Mail, Phone, FileText, UserCheck } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { USER_API_END_POINT } from '../utils/constants.js'
@@ -11,6 +11,7 @@ import { setUser } from '../redux/authSlice.js'
 import { toast } from 'sonner'
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
+    // console.log('Dialog open:', open);
     const [loading, setLoading] = useState(false);
     const { user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         if (input.file) {
             formData.append("file", input.file);
         }
+
         try {
             setLoading(true);
             const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
@@ -62,6 +64,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         } finally {
             setLoading(false);
         }
+
         setOpen(false);
         console.log(input);
     }
@@ -69,80 +72,129 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     return (
         <div>
             <Dialog open={open}>
-                <DialogContent className="sm:max-w-[425px]" onInteractOutside={() => setOpen(false)}>
-                    <DialogHeader>
-                        <DialogTitle>Update Profile</DialogTitle>
+                <DialogContent className="sm:max-w-[500px]" onInteractOutside={() => setOpen(false)}>
+                    <DialogHeader className="pb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <UserCheck className="w-5 h-5 text-blue-600" />
+                            </div>
+                            <div>
+                                <DialogTitle className="text-xl font-bold text-gray-900">Update Profile</DialogTitle>
+                                <p className="text-sm text-gray-600 mt-1">Update your personal information and preferences</p>
+                            </div>
+                        </div>
                     </DialogHeader>
                     <form onSubmit={submitHandler}>
-                        <div className='grid gap-4 py-4'>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="name" className="text-right">Name</Label>
+                        <div className='space-y-6'>
+                            <div className='space-y-2'>
+                                <Label htmlFor="fullname" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <User className="w-4 h-4" />
+                                    Full Name
+                                </Label>
                                 <Input
-                                    id="name"
-                                    name="name"
+                                    id="fullname"
+                                    name="fullname"
                                     type="text"
                                     value={input.fullname}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    placeholder="Enter your full name"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="email" className="text-right">Email</Label>
+                            <div className='space-y-2'>
+                                <Label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <Mail className="w-4 h-4" />
+                                    Email Address
+                                </Label>
                                 <Input
                                     id="email"
                                     name="email"
                                     type="email"
                                     value={input.email}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    placeholder="Enter your email address"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="number" className="text-right">Number</Label>
+                            <div className='space-y-2'>
+                                <Label htmlFor="phoneNumber" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <Phone className="w-4 h-4" />
+                                    Phone Number
+                                </Label>
                                 <Input
-                                    id="number"
-                                    name="number"
+                                    id="phoneNumber"
+                                    name="phoneNumber"
                                     value={input.phoneNumber}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    placeholder="Enter your phone number"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="bio" className="text-right">Bio</Label>
+                            <div className='space-y-2'>
+                                <Label htmlFor="bio" className="text-sm font-medium text-gray-700">
+                                    Bio
+                                </Label>
                                 <Input
                                     id="bio"
                                     name="bio"
                                     value={input.bio}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    placeholder="Tell us about yourself"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="skills" className="text-right">Skills</Label>
+                            <div className='space-y-2'>
+                                <Label htmlFor="skills" className="text-sm font-medium text-gray-700">
+                                    Skills
+                                </Label>
                                 <Input
                                     id="skills"
                                     name="skills"
                                     value={input.skills}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    placeholder="Enter your skills (comma separated)"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="file" className="text-right">Resume</Label>
+                            <div className='space-y-2'>
+                                <Label htmlFor="file" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <FileText className="w-4 h-4" />
+                                    Resume
+                                </Label>
                                 <Input
                                     id="file"
                                     name="file"
                                     type="file"
                                     accept="application/pdf"
                                     onChange={fileChangeHandler}
-                                    className="col-span-3"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                 />
+                                <p className="text-xs text-gray-500">Upload your resume in PDF format</p>
                             </div>
                         </div>
-                        <DialogFooter>
-                            {
-                                loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
-                            }
+                        <DialogFooter className="pt-6">
+                            <div className="flex items-center gap-3 w-full">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setOpen(false)}
+                                    className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
+                                >
+                                    Cancel
+                                </Button>
+                                {
+                                    loading ? (
+                                        <Button disabled className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium">
+                                            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                            Updating...
+                                        </Button>
+                                    ) : (
+                                        <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium">
+                                            Update Profile
+                                        </Button>
+                                    )
+                                }
+                            </div>
                         </DialogFooter>
                     </form>
                 </DialogContent>
