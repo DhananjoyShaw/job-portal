@@ -22,15 +22,24 @@ A modern job portal application that connects students with recruiters, featurin
 **Apply Filters in Job Section**
 
 ![Profile Page](frontend/public/README%20images/profile_page.png)
-**User Profile Page**
+**User Profile Page with Applied Jobs**
 
 ![Admin Company](frontend/public/README%20images/admin_company.png)
-**Company Admin Panel**
+**Company Page - Admin Panel**
+
+![Company Setup](frontend/public/README%20images/company_setup.png)
+**Company Setup**
 
 ![Admin Job](frontend/public/README%20images/admin_job.png)
-**Job Admin Panel**
+**Job Page - Admin Panel**
 
-<div>
+![Job Setup](frontend/public/README%20images/job_setup.png)
+**Job Setup**
+
+![Job Applicants](frontend/public/README%20images/job_applicants.png)
+**Admin/Recruiter can see Job Applicants**
+
+</div>
 
 
 ## ✨ Features
