@@ -18,7 +18,7 @@ const HeroSection = () => {
 
     return (
         <div className='flex flex-col'>
-            <div className='relative py-8 md:py-12 dotted-background-cyan mt-20'>
+            <div className='relative py-8 md:py-18 dotted-background-cyan mt-20'>
                 <div className='max-w-4xl mx-auto text-center'>
                     <span className='mx-auto px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white font-medium border border-white/20'>
                         No. 1 Job Hunt Website
