@@ -17,8 +17,12 @@ export const register = async (req, res) => {
         };
 
         const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        let cloudResponse = null;
+
+        if (file) {
+            const fileUri = getDataUri(file);
+            cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        }
 
         const user = await User.findOne({ email });
         if (user) {
@@ -29,16 +33,21 @@ export const register = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await User.create({
+        const userData = {
             fullname,
             email,
             phoneNumber,
             password: hashedPassword,
             role,
-            profile: {
-                profilePhoto: cloudResponse.secure_url,
-            }
-        });
+            profile: {}
+        };
+
+        // Only add profile photo if file was uploaded
+        if (cloudResponse) {
+            userData.profile.profilePhoto = cloudResponse.secure_url;
+        }
+
+        await User.create(userData);
 
         return res.status(201).json({
             message: "Account created successfully.",
@@ -46,6 +55,10 @@ export const register = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
     }
 }
 
@@ -125,11 +138,14 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
-        const file = req.file;
 
-        // todo: will add cloudinary later
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        const file = req.file;
+        let cloudResponse = null;
+
+        if (file) {
+            const fileUri = getDataUri(file);
+            cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        }
 
         let skillsArray;
         if (skills) {
@@ -153,8 +169,8 @@ export const updateProfile = async (req, res) => {
         if (bio) user.profile.bio = bio
         if (skills) user.profile.skills = skillsArray
 
-        // todo: will add resume later
-        if (cloudResponse) {
+        // Only update resume if file was uploaded
+        if (cloudResponse && file) {
             user.profile.resume = cloudResponse.secure_url // save the cloudinary url
             user.profile.resumeOriginalName = file.originalname // Save the original file name
         }
@@ -177,5 +193,9 @@ export const updateProfile = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
     }
 }

@@ -80,14 +80,23 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
+
         const file = req.file;
+        let logo = null;
 
-        // todo: will add cloudinary later
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-        const logo = cloudResponse.secure_url;
+        if (file) {
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            logo = cloudResponse.secure_url;
+        }
 
-        const updateData = { name, description, website, location, logo };
+        const updateData = { name, description, website, location };
+
+        // Only add logo to update data if it was uploaded
+        if (logo) {
+            updateData.logo = logo;
+        }
+
         const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
         if (!company) {
@@ -103,5 +112,35 @@ export const updateCompany = async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
+    }
+}
+
+// delete company
+export const deleteCompany = async (req, res) => {
+    try {
+        const companyId = req.params.id;
+        const company = await Company.findByIdAndDelete(companyId);
+        
+        if (!company) {
+            return res.status(404).json({
+                message: "Company not found.",
+                success: false
+            })
+        }
+        
+        return res.status(200).json({
+            message: "Company deleted successfully.",
+            success: true
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
     }
 }

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popover'
-import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { Edit2, Eye, MoreHorizontal, Trash2 } from 'lucide-react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { deleteJob } from '@/redux/jobSlice'
+import { JOB_API_END_POINT } from '@/utils/constants'
+import axios from 'axios'
 
 const AdminJobsTable = () => {
     const { allAdminJobs, searchJobByText } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allAdminJobs);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const filteredJobs = (allAdminJobs || []).filter(job => {
@@ -21,6 +25,22 @@ const AdminJobsTable = () => {
         });
         setFilterJobs(filteredJobs);
     }, [allAdminJobs, searchJobByText])
+
+    const handleDeleteJob = async (jobId) => {
+        try {
+            const response = await axios.delete(`${JOB_API_END_POINT}/delete/${jobId}`, {
+                withCredentials: true
+            });
+
+            if (response.data.success) {
+                dispatch(deleteJob(jobId));
+            } else {
+                console.error('Failed to delete job:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting job:', error.response?.data?.message || error.message);
+        }
+    };
 
     return (
         <div className="overflow-hidden">
@@ -86,6 +106,13 @@ const AdminJobsTable = () => {
                                                 >
                                                     <Eye className='w-4 h-4 text-green-600' />
                                                     <span className="text-sm font-medium text-gray-700">Applicants</span>
+                                                </div>
+                                                <div
+                                                    onClick={() => handleDeleteJob(job?._id)}
+                                                    className='flex items-center gap-3 w-full cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 mt-1'
+                                                >
+                                                    <Trash2 className='w-4 h-4 text-red-600' />
+                                                    <span className="text-sm font-medium text-gray-700">Delete</span>
                                                 </div>
                                             </PopoverContent>
                                         </Popover>

@@ -13,6 +13,14 @@ const LatestJobCards = ({ job }) => {
         return text.substring(0, maxLength) + '...';
     };
 
+    const daysAgoFunction = (mongodbTime) => {
+        const createdAt = new Date(mongodbTime);
+        const currentTime = new Date();
+        const timeDifference = (currentTime - createdAt);
+
+        return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+    }
+
     return (
         <div
             onClick={() => navigate(`/description/${job._id}`)}
@@ -35,7 +43,7 @@ const LatestJobCards = ({ job }) => {
                 <Badge
                     className={`px-3 py-1 text-xs font-medium ${job?.jobType === 'Full-time'
                         ? 'bg-green-100 text-green-700'
-                        : job?.jobType === 'Part-time'
+                        : job?.jobType === 'Intern'
                             ? 'bg-orange-100 text-orange-700'
                             : 'bg-blue-100 text-blue-700'
                         }`}
@@ -51,7 +59,7 @@ const LatestJobCards = ({ job }) => {
             <div className='space-y-3 mb-4'>
                 <div className='flex items-center gap-2 text-sm text-gray-500'>
                     <Clock className='w-4 h-4' />
-                    <span>Posted recently</span>
+                    <span>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</span>
                 </div>
             </div>
 
@@ -64,7 +72,7 @@ const LatestJobCards = ({ job }) => {
                     {job?.jobType}
                 </Badge>
                 <Badge className='bg-green-50 text-green-700 hover:bg-green-100 transition-colors text-xs font-medium' variant="secondary">
-                    {job?.salary} LPA
+                    {job?.salary} {job?.jobType === "Full-time" ? "LPA" : "LPM"}
                 </Badge>
             </div>
         </div>

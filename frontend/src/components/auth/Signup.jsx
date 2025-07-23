@@ -70,7 +70,7 @@ const Signup = () => {
         <div>
             <Navbar />
             <div className='flex items-center justify-center max-w-7xl mx-auto px-4 py-16 mt-10'>
-                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-xl shadow-lg p-8 bg-white'>
+                <form onSubmit={submitHandler} className='w-1/3 border border-gray-200 rounded-xl shadow-lg p-8 bg-white'>
                     <h1 className='font-bold text-2xl mb-6 text-center text-gray-800'>Sign Up</h1>
                     <div className='my-4'>
                         <Label className='text-sm font-medium text-gray-700'>Full Name</Label>
@@ -166,7 +166,7 @@ const Signup = () => {
                             </div>
                         </RadioGroup>
                     </div>
-
+                    
                     {
                         loading ? (
                             <Button disabled className="w-full my-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg">

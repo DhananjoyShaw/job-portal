@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { USER_API_END_POINT } from '../../utils/constants.js'
 import { toast } from 'sonner'
-import logo from '../../assets/logo_new.png';
+import logo from '../../assets/logo.png';
 import { setUser } from '@/redux/authSlice'
 
 const Navbar = () => {
@@ -41,7 +41,7 @@ const Navbar = () => {
                 <div className='flex items-center justify-between'>
 
                     <div className='flex items-center gap-3'>
-                        <Link to="/" className='flex items-center gap-1 hover:opacity-80 transition-opacity'>
+                        <Link to="/" className='flex items-center gap-1'>
                             <img src={logo} alt="JobForge Logo" className='w-10 h-auto object-contain' />
                             <h1 className='text-3xl font-bold text-gray-900'>Job<span className='text-[#F83002]'>Forge</span></h1>
                         </Link>

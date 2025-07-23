@@ -8,10 +8,12 @@ import { setSearchedQuery } from '@/redux/jobSlice';
 const category = [
     "Frontend Developer",
     "Backend Developer",
-    "Data Science",
-    "FullStack Developer",
+    "Data Analyst",
+    "Full Stack Developer",
     "DevOps Engineer",
-    "UI/UX Designer"
+    "UI/UX Designer",
+    "Mobile App Developer",
+    "Cloud Engineer",
 ];
 
 const CategoryCarousel = () => {
@@ -36,7 +38,7 @@ const CategoryCarousel = () => {
                             <Button
                                 onClick={() => searchJobHandler(cat)}
                                 variant="outline"
-                                className="rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 transition-all duration-300 whitespace-nowrap"
+                                className="rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 hover:text-blue-400 transition-all duration-300 whitespace-nowrap"
                             >
                                 {cat}
                             </Button>

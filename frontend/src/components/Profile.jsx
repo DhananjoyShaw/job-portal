@@ -32,7 +32,7 @@ const Profile = () => {
                             </Avatar>
                             <div>
                                 <h1 className='font-bold text-2xl text-gray-900 mb-2'>{user?.fullname}</h1>
-                                <p className='text-gray-600 text-lg'>{user?.profile?.bio || 'No bio available'}</p>
+                                <p className='text-gray-600 text-base'>{user?.profile?.bio || 'No bio available'}</p>
                             </div>
                         </div>
                         <Button
@@ -45,12 +45,12 @@ const Profile = () => {
                         </Button>
                     </div>
 
-                    <div className='mt-8 grid md:grid-cols-2 gap-4'>
-                        <div className='flex items-center gap-3 p-3 bg-gray-50 rounded-lg'>
+                    <div className='mt-8 grid md:grid-cols-3 gap-4'>
+                        <div className='flex items-center gap-3 p-2 bg-gray-100 rounded-md'>
                             <Mail className='w-5 h-5 text-blue-600' />
                             <span className='text-gray-700'>{user?.email}</span>
                         </div>
-                        <div className='flex items-center gap-3 p-3 bg-gray-50 rounded-lg'>
+                        <div className='flex items-center gap-3 p-2 bg-gray-100 rounded-md'>
                             <Contact className='w-5 h-5 text-green-600' />
                             <span className='text-gray-700'>{user?.phoneNumber || 'No phone number'}</span>
                         </div>
@@ -61,11 +61,11 @@ const Profile = () => {
                             <User className='w-5 h-5 text-purple-600' />
                             <h2 className='font-semibold text-lg text-gray-900'>Skills</h2>
                         </div>
-                        <div className='flex flex-wrap gap-2'>
+                        <div className='flex flex-wrap gap-3'>
                             {
                                 user?.profile?.skills && user?.profile?.skills.length > 0 ?
                                     user?.profile?.skills.map((item, index) => (
-                                        <Badge key={index} className='bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors'>
+                                        <Badge key={index} className='bg-blue-50 p-2 text-sm rounded-lg text-blue-700 hover:bg-blue-100 transition-colors'>
                                             {item}
                                         </Badge>
                                     )) :
@@ -84,7 +84,7 @@ const Profile = () => {
                                 <a
                                     target='blank'
                                     href={user?.profile?.resume}
-                                    className='inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 hover:underline cursor-pointer p-3 bg-blue-50 rounded-lg transition-colors'
+                                    className='inline-flex items-center text-base gap-2 text-blue-600 hover:text-blue-700 hover:underline cursor-pointer p-2 bg-blue-50 rounded-lg transition-colors'
                                 >
                                     <FileText className='w-4 h-4' />
                                     {user?.profile?.resumeOriginalName}

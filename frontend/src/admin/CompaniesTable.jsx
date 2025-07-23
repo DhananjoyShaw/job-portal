@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Edit2, MoreHorizontal, Building2 } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { Edit2, MoreHorizontal, Building2, Trash2 } from 'lucide-react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { deleteCompany } from '@/redux/companySlice'
+import { COMPANY_API_END_POINT } from '@/utils/constants'
+import axios from 'axios'
 
 const CompaniesTable = () => {
     const { companies, searchCompanyByText } = useSelector(store => store.company);
     const [filterCompany, setFilterCompany] = useState(companies);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const filteredCompanies = companies.length >= 0 && companies.filter(company => {
@@ -20,6 +24,22 @@ const CompaniesTable = () => {
         })
         setFilterCompany(filteredCompanies);
     }, [companies, searchCompanyByText])
+
+    const handleDeleteCompany = async (companyId) => {
+        try {
+            const response = await axios.delete(`${COMPANY_API_END_POINT}/delete/${companyId}`, {
+                withCredentials: true
+            });
+
+            if (response.data.success) {
+                dispatch(deleteCompany(companyId));
+            } else {
+                console.error('Failed to delete company:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting company:', error.response?.data?.message || error.message);
+        }
+    };
 
     return (
         <div className="overflow-hidden">
@@ -74,6 +94,13 @@ const CompaniesTable = () => {
                                                 >
                                                     <Edit2 className='w-4 h-4 text-blue-600' />
                                                     <span className="text-sm font-medium text-gray-700">Edit</span>
+                                                </div>
+                                                <div
+                                                    onClick={() => handleDeleteCompany(company?._id)}
+                                                    className='flex items-center gap-3 w-full cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200'
+                                                >
+                                                    <Trash2 className='w-4 h-4 text-red-600' />
+                                                    <span className="text-sm font-medium text-gray-700">Delete</span>
                                                 </div>
                                             </PopoverContent>
                                         </Popover>

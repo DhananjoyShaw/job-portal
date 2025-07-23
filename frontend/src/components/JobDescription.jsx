@@ -89,7 +89,7 @@ const JobDescription = () => {
                                 Job Details
                             </h2>
                             <div className='grid md:grid-cols-2 gap-6'>
-                                <div className='space-y-4'>
+                                <div className='space-y-5'>
                                     <div className='flex items-center gap-3'>
                                         <Briefcase className='w-5 h-5 text-gray-400' />
                                         <div>
@@ -108,7 +108,7 @@ const JobDescription = () => {
                                         <DollarSign className='w-5 h-5 text-gray-400' />
                                         <div>
                                             <span className='text-sm text-gray-500'>Salary</span>
-                                            <p className='font-medium text-gray-900'>{singleJob?.salary} LPA</p>
+                                            <p className='font-medium text-gray-900'>{singleJob?.salary} {singleJob?.jobType === "Full-time" ? "LPA" : "LPM"}</p>
                                         </div>
                                     </div>
                                     <div className='flex items-center gap-3'>
@@ -119,7 +119,7 @@ const JobDescription = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='space-y-4'>
+                                <div className='space-y-5'>
                                     <div className='flex items-center gap-3'>
                                         <Users className='w-5 h-5 text-gray-400' />
                                         <div>
@@ -134,12 +134,21 @@ const JobDescription = () => {
                                             <p className='font-medium text-gray-900'>{singleJob?.createdAt?.split("T")[0]}</p>
                                         </div>
                                     </div>
+                                    <div className='flex items-center gap-3'>
+                                        <Users className='w-5 h-5 text-gray-400' />
+                                        <div>
+                                            <span className='text-sm text-gray-500'>Total Positions</span>
+                                            <p className='font-medium text-gray-900'>{singleJob?.position}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div className='mt-8 pt-6 border-t border-gray-200'>
                                 <h3 className='font-bold text-lg text-gray-900 mb-4'>Job Description</h3>
                                 <p className='text-gray-700 leading-relaxed'>{singleJob?.description}</p>
+                                <h3 className='mt-8 font-bold text-lg text-gray-900 mb-4'>Job Requirements</h3>
+                                <p className='text-gray-700 leading-relaxed'>{singleJob?.requirements}</p>
                             </div>
                         </div>
                     </div>

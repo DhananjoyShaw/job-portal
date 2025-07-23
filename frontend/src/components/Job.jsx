@@ -56,7 +56,7 @@ const Job = ({ job }) => {
                     <Badge
                         className={`px-3 py-1 text-xs font-medium ${job?.jobType === 'Full-time'
                             ? 'bg-green-100 text-green-700'
-                            : job?.jobType === 'Part-time'
+                            : job?.jobType === 'Intern'
                                 ? 'bg-orange-100 text-orange-700'
                                 : 'bg-blue-100 text-blue-700'
                             }`}
@@ -71,7 +71,9 @@ const Job = ({ job }) => {
                 <div className='flex flex-wrap gap-2 mb-4'>
                     <Badge className='bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors text-xs font-medium' variant="secondary">{job?.position} Positions</Badge>
                     <Badge className='bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors text-xs font-medium' variant="secondary">{job?.jobType}</Badge>
-                    <Badge className='bg-green-50 text-green-700 hover:bg-green-100 transition-colors text-xs font-medium' variant="secondary">{job?.salary} LPA</Badge>
+                    <Badge className='bg-green-50 text-green-700 hover:bg-green-100 transition-colors text-xs font-medium' variant="secondary">
+                        {job?.salary} {job?.jobType === "Full-time" ? "LPA" : "LPM"}
+                    </Badge>
                 </div>
 
                 {/* Action Buttons */}
