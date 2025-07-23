@@ -10,7 +10,27 @@ A modern job portal application that connects students with recruiters, featurin
 
 ## 📱 Screenshots
 
-[Add screenshots of your application here]
+<div align="center">
+
+![Home Page](frontend/public/README%20images/home_page.png)
+**Home Page**
+
+![Job Section](frontend/public/README%20images/job_section.png)
+**Job Section**
+
+![Job Filter](frontend/public/README%20images/job_filter.png)
+**Apply Filters in Job Section**
+
+![Profile Page](frontend/public/README%20images/profile_page.png)
+**User Profile Page**
+
+![Admin Company](frontend/public/README%20images/admin_company.png)
+**Company Admin Panel**
+
+![Admin Job](frontend/public/README%20images/admin_job.png)
+**Job Admin Panel**
+
+<div>
 
 
 ## ✨ Features
